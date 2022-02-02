@@ -7,5 +7,5 @@ export default {
         justify-content: center;
         align-items: center;
     `,
-    LoadingIcon: styled.ActivityIndicator``
+    Texto: styled.Text``
 };
