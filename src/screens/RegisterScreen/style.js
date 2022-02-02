@@ -7,13 +7,6 @@ export default {
         padding: 20px;
         background-color: #F5F6FA;
     `,
-    Logo: styled.Image`
-        width: 250px;
-        height: 200px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 20px;
-    `,
     Field: styled.TextInput`
         border-width: 1px;
         border-color: #CCC;
