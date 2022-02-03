@@ -12,10 +12,11 @@ export default () => {
     useEffect(()=>{
         const checkLogin = async () => {
             let token = await api.getToken();
+            
             if(token){
                 let result = await api.validadeToken();
+                
                 if(result.error === ''){
-                    console.log('entrou')
                     dispatch({
                         type: 'setUser',
                         payload: {
@@ -24,7 +25,7 @@ export default () => {
                     });
                     navigation.reset({
                         index: 1,
-                        routes: [{name: 'ChoosePropertyScreen'}]
+                        routes: [{name:'ChoosePropertyScreen'}]
                     });
                 }else{
                     alert(result.error);

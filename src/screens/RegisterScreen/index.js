@@ -27,6 +27,7 @@ export default () => {
             if(result.error ===''){
                 dispatch({ type: 'setToken', payload: {token: result.token }});
                 dispatch({  type: 'setUser', payload: { user: result.user}});
+                
                 navigation.reset({
                     index: 1,
                     routes: [{name: 'ChoosePropertyScreen'}]
