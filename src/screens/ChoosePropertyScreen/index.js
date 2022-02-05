@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native'
-import C from './style';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import C from './style';
+
 import { useStateValue } from '../../contexts/StateContext';
 import api from '../../services/api';
 
@@ -11,10 +12,20 @@ export default () => {
 
     const [loading, setLoading] = useState(true);
 
+    const menus = [
+        {title: 'Mural de avisos', icon: 'inbox', screen: 'WallScreen'},
+        {title: 'Documents', icon: 'file-text', screen: 'DocumentScreen'},
+        {title: 'Reservas', icon: 'calendar', screen: 'ReservationScreen'},
+        {title: 'Livro de Ocorrências', icon: 'bug', screen: 'WarningScreen'},
+        {title: 'Achados e Perdidos', icon: 'search', screen: 'FoundAndLostScreen'},
+        {title: 'Boletos', icon: 'wpforms', screen: 'BilletScreen'},
+        {title: 'Perfil', icon: 'user', screen: 'ProfileScreen'},
+    ]
+
     useEffect(()=>{
         const checkPropertySel = async () => {
             let property = await AsyncStorage.getItem('property');
-            if(property){
+            if(property) {
                 property = JSON.parse(property);
                 await chooseProperty(property);
             }
@@ -27,39 +38,39 @@ export default () => {
         await api.logout();
         navigation.reset({
             index: 1,
-            routes: [{name: 'LoginScreen'}]
+            routes:[{name: 'LoginScreen'}]
         });
     }
 
-    const chooseProperty = async (property) =>{
+    const chooseProperty = async (property) => {
         await AsyncStorage.setItem('property', JSON.stringify(property));
+
         dispatch({
-            type: 'setProperty', 
+            type: 'setProperty',
             payload: {
                 property
             }
         });
+
         navigation.reset({
             index: 1,
-            routes: [{name: 'MainDrawer'}]
+            routes:[{name: 'MainDrawer'}]
         });
     }
 
-    return(
+    return (
         <C.Container>
             <C.Scroller>
-                {loading && 
-                    <C.LoadingIcon
-                        color="#8863E6"  size="large"
-                    />
+                {loading &&
+                    <C.LoadingIcon color="#8863E6" size="large" />
                 }
                 {!loading && context.user.user.properties.length > 0 &&
                     <>
-                        <C.HeadTitle> Olá {context.user.user.properties.name}</C.HeadTitle>
-                        <C.HeadTitle> Escolha uma das suas propriedades </C.HeadTitle>
+                        <C.HeadTitle>Olá {context.user.user.name}</C.HeadTitle>
+                        <C.HeadTitle>Escolha uma das suas propriedades</C.HeadTitle>
 
                         <C.PropertyList>
-                            {context.user.user.properties.map((item,index)=>(
+                            {context.user.user.properties.map((item, index)=>(
                                 <C.ButtonArea key={index} onPress={()=>chooseProperty(item)}>
                                     <C.ButtonText>{item.name}</C.ButtonText>
                                 </C.ButtonArea>
@@ -67,14 +78,12 @@ export default () => {
                         </C.PropertyList>
                     </>
                 }
-
                 {!loading && context.user.user.properties.length <= 0 &&
                     <C.BigArea>
-                        <C.HeadTitle>{context.user.user.name}, Parabéns pelo cadastro</C.HeadTitle>
-                        <C.HeadTitle> Agora a administração precisa liberar seu acesso</C.HeadTitle>
+                        <C.HeadTitle>{context.user.user.name}, parabéns pelo cadastro!</C.HeadTitle>
+                        <C.HeadTitle>Agora a administração precisa liberar seu acesso.</C.HeadTitle>
                     </C.BigArea>
                 }
-
             </C.Scroller>
             <C.ExitButtonArea onPress={handleLogoutButton}>
                 <C.ExitButtonText>Sair</C.ExitButtonText>
