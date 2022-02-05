@@ -7,48 +7,18 @@ export default {
         padding: 20px;
         background-color: #F5F6FA;
     `,
-    Scroller: styled.ScrollView`
-        flex: 1;
-        padding: 20px;
-    `,
     LoadingIcon: styled.ActivityIndicator``,
-    HeadTitle: styled.Text`
-        font-size: 16px;
-        color: #000;
-        text-align: center;
-        margin-top: 10px;
-    `,
-    BigArea: styled.View`
-        margin: 50px 0;
-        align-items: center;
-    `,
-    ExitButtonArea: styled.TouchableOpacity`
-        background-color: #8863E6;
-        padding: 15px;
+    NoListArea: styled.View`
         justify-content: center;
         align-items: center;
+        padding: 30px;
     `,
-    ExitButtonText: styled.Text`
-        color: #EEE;
+    NoListText: styled.Text`
         font-size: 15px;
-        font-weight: bold;
-    `, 
-    PropertyList: styled.View`
-        margin: 20px 0;
-    `,
-    ButtonArea: styled.TouchableOpacity`
-        background-color: #FFF;
-        border-width: 2px;
-        border-color: #E8E9ED;
-        border-radius: 20px;
-        padding: 15px;
-        align-items: center;
-        margin-bottom: 10px;
-
-    `,
-    ButtonText: styled.Text`
         color: #000;
-        font-size: 15px;
-        font-weight: bold;
     `,
+    List: styled.FlatList`
+        flex: 1;
+    `
+   
 };
