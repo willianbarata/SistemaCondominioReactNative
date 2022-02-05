@@ -12,16 +12,6 @@ export default () => {
 
     const [loading, setLoading] = useState(true);
 
-    const menus = [
-        {title: 'Mural de avisos', icon: 'inbox', screen: 'WallScreen'},
-        {title: 'Documents', icon: 'file-text', screen: 'DocumentScreen'},
-        {title: 'Reservas', icon: 'calendar', screen: 'ReservationScreen'},
-        {title: 'Livro de Ocorrências', icon: 'bug', screen: 'WarningScreen'},
-        {title: 'Achados e Perdidos', icon: 'search', screen: 'FoundAndLostScreen'},
-        {title: 'Boletos', icon: 'wpforms', screen: 'BilletScreen'},
-        {title: 'Perfil', icon: 'user', screen: 'ProfileScreen'},
-    ]
-
     useEffect(()=>{
         const checkPropertySel = async () => {
             let property = await AsyncStorage.getItem('property');
