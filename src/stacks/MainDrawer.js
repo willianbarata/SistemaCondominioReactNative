@@ -7,6 +7,7 @@ import BilletScreen from "../screens/BilletScreen";
 import DrawerCustom from "../components/DrawerCustom";
 import WarningScreen from "../screens/WarningScreen";
 import WarningAddScreen from "../screens/WarningAddScreen";
+import ReservationScreen from "../screens/ReservationScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,6 +44,10 @@ export default () => {
             <Drawer.Screen 
                 name="WarningAddScreen"
                 component={WarningAddScreen}
+            />
+             <Drawer.Screen 
+                name="ReservationScreen"
+                component={ReservationScreen}
             />
         </Drawer.Navigator>
     );
