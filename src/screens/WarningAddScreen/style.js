@@ -68,5 +68,9 @@ export default {
         font-weight: bold;
         color: #FFF; 
     `,
+    LoadingText: styled.Text`
+        font-size: 15px;
+        margin: 10px 0;
+    `,
    
 };

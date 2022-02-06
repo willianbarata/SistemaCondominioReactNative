@@ -15,6 +15,8 @@ export default () => {
 
     const [photoList, setPhotoList] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
         navigation.setOptions({
             headerTitle: 'Adicionar uma ocorrência',
@@ -26,18 +28,39 @@ export default () => {
         launchCamera({
             mediaType: 'photo',
             maxWidth: 1280
-        }, async (response)=> {
-            if(!response.didCancel){
+        }, async (response) => {
+            if(!response.didCancel) {
+                setLoading(true);
                 let result = await api.addWarningFile(response);
-                if(result.error === ''){    
+                setLoading(false);
+                if(result.error === '') {
                     let list = [...photoList];
                     list.push(result.photo);
                     setPhotoList(list);
-                }else{
+                } else {
                     alert(result.error);
                 }
             }
-        })
+        });
+    }
+
+    const handleDelPhoto = (url) => {
+        let list = [...photoList];
+        list = list.filter( value => value!==value);
+        setPhotoList(list);
+    }
+
+    const handleSaveWarn = async ()=>{
+        if(warnText !== ''){
+            const result = await api.addWarning(warn, photoList);
+            if(result.error === ''){
+                navigation.navigate('WarningScreen');
+            }else{
+                alert(result.error)
+            }
+        }else{
+            alert("Escreva a ocorrência");
+        }
     }
 
     return(
@@ -55,10 +78,10 @@ export default () => {
                                 <C.PhotoAddButton onPress={handleAddPhoto}>
                                     <Icon name="camera" size={24} color="#000" />
                                 </C.PhotoAddButton>
-                                {photoList.map(()=> {
+                                {photoList.map((item, index)=> {
                                     <C.PhotoItem key={index}>
                                         <C.Photo source={{uri: item}} />
-                                        <C.PhotoRemoveButton onPress={}>
+                                        <C.PhotoRemoveButton onPress={() => handleDelPhoto(item)}>
                                             <Icon name="remove" size={16} color="#FF0000" />
                                         </C.PhotoRemoveButton>
                                     </C.PhotoItem>
@@ -66,7 +89,12 @@ export default () => {
                         </C.PhotoScroll>
 
                    </C.PhotoArea>
-                   <C.ButtonArea onPress={null}>
+                     {loading &&
+                        <C.LoadingText>Enviando foto... Aguarde</C.LoadingText>
+
+                     }
+
+                   <C.ButtonArea onPress={handleSaveWarn}>
                        <C.ButtonText>Salvar</C.ButtonText>
                    </C.ButtonArea>
                </C.Scroller>

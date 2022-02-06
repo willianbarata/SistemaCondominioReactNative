@@ -88,7 +88,7 @@ export default {
         }, token);
         return json;
     },
-    addWarningFile: async(file) => {
+    addWarningFile: async (file) => {
         let token = await AsyncStorage.getItem('token');
         let formData = new FormData();
         formData.append('photo', {
@@ -99,12 +99,23 @@ export default {
         let req = await fetch(`${baseUrl}/warning/file`, {
             method: 'POST',
             headers: {
-                'Content-type' : 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`
             },
             body: formData
         });
         let json = await req.json();
         return json;
+    },
+    addWarning:  async(title, list) => {
+        let token = await AsyncStorage.getItem('token');
+        let property = await AsyncStorage.getItem('property');
+        property = JSON.parse(property);
+        let json = await request('post', '/warning', {
+            title,
+            list,
+            property: property.id
+        }, token);
+        return json; 
     }
 };
