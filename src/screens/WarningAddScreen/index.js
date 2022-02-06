@@ -5,12 +5,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useStateValue } from '../../contexts/StateContext';
 import api from '../../services/api';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { launchCamera } from 'react-native-image-picker';
 
 export default () => {
     const navigation = useNavigation();
     const [context, dispatch] = useStateValue();
 
     const [warnText, setWarnText ] = useState();
+
+    const [photoList, setPhotoList] = useState([]);
 
     useEffect(()=>{
         navigation.setOptions({
@@ -19,18 +22,22 @@ export default () => {
         });
     }, [])
 
-
-    const getWarnings = async () => {
-        setList([]);
-        setLoading(true);
-        const result = await api.getWarnings();
-        setLoading(false);
-        if(result.error === ''){
-            //se não exitir erros, listaremos
-           setList(result.list);
-        } else{
-            alert(result.error);
-        }
+    const handleAddPhoto = async () => {
+        launchCamera({
+            mediaType: 'photo',
+            maxWidth: 1280
+        }, async (response)=> {
+            if(!response.didCancel){
+                let result = await api.addWarningFile(response);
+                if(result.error === ''){    
+                    let list = [...photoList];
+                    list.push(result.photo);
+                    setPhotoList(list);
+                }else{
+                    alert(result.error);
+                }
+            }
+        })
     }
 
     return(
@@ -45,9 +52,17 @@ export default () => {
                    <C.Title>Fotos relacionadas</C.Title>
                    <C.PhotoArea>
                         <C.PhotoScroll horizontal={true}>
-                                <C.PhotoAddButton onPress={null}>
+                                <C.PhotoAddButton onPress={handleAddPhoto}>
                                     <Icon name="camera" size={24} color="#000" />
                                 </C.PhotoAddButton>
+                                {photoList.map(()=> {
+                                    <C.PhotoItem key={index}>
+                                        <C.Photo source={{uri: item}} />
+                                        <C.PhotoRemoveButton onPress={}>
+                                            <Icon name="remove" size={16} color="#FF0000" />
+                                        </C.PhotoRemoveButton>
+                                    </C.PhotoItem>
+                                })}
                         </C.PhotoScroll>
 
                    </C.PhotoArea>
