@@ -14,4 +14,7 @@ export default {
     LoadingIcon: styled.ActivityIndicator`
         margin-top: 20px;
     `,
+    CalendarArea: styled.View`
+        margin: 20px;
+    `
 };
